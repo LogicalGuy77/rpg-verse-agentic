@@ -1,0 +1,20 @@
+{
+    "maps": [
+        {
+            "fileName": "maps/map.tmx",
+            "height": 1280,
+            "width": 1280,
+            "x": 0,
+            "y": -32
+        },
+        {
+            "fileName": "maps/neeew.tmx",
+            "height": 960,
+            "width": 1472,
+            "x": -32,
+            "y": 1248
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}
