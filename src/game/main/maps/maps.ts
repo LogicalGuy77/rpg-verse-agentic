@@ -1,22 +1,22 @@
-import { RpgPlayer } from '@rpgjs/server'
-import { MapData, RpgMap } from '@rpgjs/server'
+import { RpgPlayer } from "@rpgjs/server";
+import { MapData, RpgMap } from "@rpgjs/server";
 
 @MapData({
-    id: 'map',
-    file: require('../worlds/maps/map.tmx')
+  id: "map",
+  file: require("../worlds/maps/map.tmx"),
+  syncProperties: true, // Add this line
 })
 export default class TownMap extends RpgMap {
-    onInit() {
-        console.log('Map loaded')
-    }
+  onInit() {
+    console.log("Map loaded");
+  }
 
-    onJoin(player: RpgPlayer) {
-        console.log('enter', player.id)
-    }
+  onJoin(player: RpgPlayer) {
+    console.log("enter", player.id);
+  }
 
-    // When the player leaves the map
-    onLeave(player: RpgPlayer) {
-        super.onLeave(player)
-        console.log('leave', player.id)
-    }
-} 
+  onLeave(player: RpgPlayer) {
+    super.onLeave(player);
+    console.log("leave", player.id);
+  }
+}
