@@ -20,6 +20,9 @@
    <point/>
   </object>
   <object id="32" name="EV-2" x="500" y="351">
+   <properties>
+    <property name="npcId" value="npc_002"/>
+   </properties>
    <point/>
   </object>
  </objectgroup>
