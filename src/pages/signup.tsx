@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Settings, FileText } from 'lucide-react';
 import { WalletToggle } from '../components/WalletToggle.js';
 import bgg from '/bgg.jpg';
-
+import google from "/google.jpeg";
+import metamask from "/metamask.jpg";
 export function SignupPage() {
     const [toggles, setToggles] = useState({});
     const [showAnimation, setShowAnimation] = useState(true);
@@ -48,50 +49,27 @@ export function SignupPage() {
             </div>
 
             <div className="min-h-screen flex items-center justify-center px-4 backdrop-blur-sm">
-                <div className="flex gap-4 max-w-2xl w-full">
+                <div className="flex gap-4">
                     <div className="bg-gray-900/90 p-8 rounded-lg border-2 border-red-600 shadow-lg flex-1">
                         <h1 className="text-4xl font-bold mb-8 text-amber-500 font-mono">Login</h1>
                         <div className="space-y-6">
-                            <div>
-                                <label className="block text-white mb-2 text-sm">Email</label>
-                                <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    className="w-full px-4 py-2 bg-black border border-red-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                                />
-                            </div>
-                            <button className="px-6 py-2 bg-red-700 hover:bg-red-600 text-white rounded border-2 border-red-600 font-mono">
-                                Login
-                            </button>
-                            <div className="flex flex-col gap-4">
-                                <button className="px-6 py-2 bg-red-700 hover:bg-red-600 text-white rounded border-2 border-red-600 font-mono" onClick={() => handleButtonClick('MetaMask Wallet')}>
-                                    MetaMask Wallet
-                                </button>
-                                <button className="px-6 py-2 bg-red-700 hover:bg-red-600 text-white rounded border-2 border-red-600 font-mono" onClick={() => handleButtonClick('CoinBase Wallet')}>
-                                    CoinBase Wallet
-                                </button>
-                                <button className="px-6 py-2 bg-red-700 hover:bg-red-600 text-white rounded border-2 border-red-600 font-mono" onClick={() => handleButtonClick('Rainbow Wallet')}>
-                                    Rainbow Wallet
-                                </button>
+                            <div className="flex flex-col gap-4 w-full items-center">
                                 <AuthButton />
+
+                                <div className="flex w-full items-center justify-evenly">
+                                    <img className="h-[5rem] w-[5rem] rounded-2xl mr-4" src={google}></img>
+                                    <img className="h-[5rem] w-[5rem] rounded-2xl" src={metamask}></img>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="bg-gray-900/90 p-8 rounded-lg border-2 border-red-600 shadow-lg">
-                        <h2 className="text-2xl font-bold mb-6 text-amber-500 font-mono">Or use</h2>
-                        <div className="space-y-4">
-                            {walletNames.map((name) => (
-                                <WalletToggle key={name} name={name} isEnabled={!!toggles[name]} onToggle={() => handleToggle(name)} />
-                            ))}
                         </div>
                     </div>
                 </div>
             </div>
 
+
             <div className="absolute bottom-0 w-full bg-gray-900/90 border-t-2 border-red-600 p-6">
                 <p className="text-white text-2xl font-mono text-center">
-                    Log in or create an account to start. No email required!
+                    Connect Wallet to start
                 </p>
             </div>
 
