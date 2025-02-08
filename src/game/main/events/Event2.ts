@@ -6,7 +6,6 @@ import { RpgEvent, EventData, RpgPlayer } from "@rpgjs/server";
     width: 32,
     height: 16,
   },
-  // Set the property directly in the decorator
   properties: {
     npcId: "npc_002",
   },
@@ -14,22 +13,59 @@ import { RpgEvent, EventData, RpgPlayer } from "@rpgjs/server";
 export default class VillagerEvent extends RpgEvent {
   onInit() {
     this.setGraphic("female");
-    // Log the properties to verify they're set
-    console.log("Event2 initialized:", {
-      properties: this.properties,
-      npcId: this.properties?.npcId,
-    });
   }
 
   async onAction(player: RpgPlayer) {
-    // Log properties on interaction
-    console.log("Event2 interaction:", {
-      properties: this.properties,
-      npcId: this.properties?.npcId,
-    });
-
+    // Initial greeting
     await player.showText("Hi, I am an Event 2 Resolver", {
       talkWith: this,
     });
+
+    // Create multiple choice options
+    const choices = [
+      { text: "Hello!", value: "hello" },
+      { text: "How are you?", value: "how_are_you" },
+      { text: "Nice to meet you!", value: "greet" },
+      { text: "Goodbye", value: "bye" },
+    ];
+
+    // Get input through choices
+    const response = await player.showChoices(
+      "What would you like to say?",
+      choices,
+      {
+        talkWith: this,
+      }
+    );
+
+    // Show different responses based on choice
+    let replyText = "";
+    switch (response) {
+      case "hello":
+        replyText = "Hello to you too!";
+        break;
+      case "how_are_you":
+        replyText = "I'm doing great, thank you for asking!";
+        break;
+      case "greet":
+        replyText = "Nice to meet you as well!";
+        break;
+      case "bye":
+        replyText = "Goodbye! Have a great day!";
+        break;
+      default:
+        replyText = "Wecome to SuriVerse!";
+    }
+
+    // Show the response with timestamp
+    const timestamp = new Date().toISOString();
+    await player.showText(
+      `You said: ${choices.find((c) => c.value === response)?.text}\n` +
+        `My response: ${replyText}\n` +
+        `Time: ${timestamp}`,
+      {
+        talkWith: this,
+      }
+    );
   }
 }

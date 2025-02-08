@@ -1,7 +1,28 @@
 <template>
   <div class="input-box" v-if="show">
-    <input v-model="userInput" type="text" placeholder="Enter text..." />
-    <button @click="handleSubmit">Submit</button>
+    <div class="chat-history" v-if="messages.length">
+      <div
+        v-for="(message, index) in messages"
+        :key="index"
+        :class="[
+          'message',
+          message.type === 'user' ? 'user-message' : 'bot-message',
+        ]"
+      >
+        {{ message.text }}
+      </div>
+    </div>
+    <div class="input-area">
+      <input
+        v-model="userInput"
+        type="text"
+        placeholder="Enter text..."
+        @keyup.enter="handleSubmit"
+      />
+      <button @click="handleSubmit" :disabled="isLoading">
+        {{ isLoading ? "..." : "Submit" }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -11,25 +32,19 @@ export default {
   rpgAttachToSprite: true,
   props: ["spriteData"],
   inject: ["rpgScene"],
+
   data() {
     return {
       show: false,
       userInput: "",
       spriteInfo: null,
+      messages: [],
+      isLoading: false,
     };
   },
+
   mounted() {
     const sprite = this.rpgScene().getSprite(this.spriteData.id);
-
-    // Debug: Log the full sprite object structure
-    console.log("Sprite Object Structure:", {
-      spriteData: this.spriteData,
-      sprite: sprite,
-      data: sprite?.data?.data, // Note: checking data.data
-      name: sprite?.data?.name,
-    });
-
-    // Try to get npcId from the data
     const npcId = sprite?.data?.data?.npcId;
 
     this.spriteInfo = {
@@ -38,74 +53,189 @@ export default {
       npcId: npcId,
     };
 
-    // Additional debug log
-    console.log("Constructed Sprite Info:", this.spriteInfo);
-
     this.show = true;
   },
+
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
+      if (!this.userInput.trim() || this.isLoading) return;
+
       const sprite = this.rpgScene().getSprite(this.spriteData.id);
       const spriteName = sprite?.data?.name;
       const timestamp = new Date().toISOString();
 
-      // Different console logs based on agent names
-      switch (spriteName) {
-        case "UNISWAP_AGENT":
-          console.log("Uniswap input:", {
-            input: this.userInput,
-            timestamp,
+      this.isLoading = true;
+
+      // Store user message
+      this.messages.push({
+        text: this.userInput,
+        type: "user",
+        timestamp,
+      });
+
+      try {
+        let response = null;
+
+        // Handle API calls based on sprite name
+        switch (spriteName) {
+          case "UNISWAP_AGENT":
+            response = await this.sendToUniswapAPI(this.userInput);
+            break;
+          case "LIDO_AGENT":
+            response = await this.sendToLidoAPI(this.userInput);
+            break;
+          case "AAVE_AGENT":
+            response = await this.sendToAaveAPI(this.userInput);
+            break;
+          case "INTENT_AGENT":
+            response = await this.sendToIntentAPI(this.userInput);
+            break;
+        }
+
+        // Store bot response if we got one
+        if (response) {
+          this.messages.push({
+            text: response,
+            type: "bot",
+            timestamp: new Date().toISOString(),
           });
-          break;
-        case "LIDO_AGENT":
-          console.log("Lido staking input:", {
-            input: this.userInput,
-            timestamp,
-          });
-          break;
-        case "AAVE_AGENT":
-          console.log("Aave lending input:", {
-            input: this.userInput,
-            timestamp,
-          });
-          break;
-        case "INTENT_AGENT":
-          console.log("Intent resolver input:", {
-            input: this.userInput,
-            timestamp,
-          });
-          break;
-        case "EV-2":
-          console.log("EV-2 Input:", {
-            input: this.userInput,
-            timestamp,
-          });
-          break;
+        }
+      } catch (error) {
+        console.error("API Error:", error);
+        this.messages.push({
+          text: "Sorry, an error occurred. Please try again.",
+          type: "bot",
+          timestamp: new Date().toISOString(),
+        });
+      } finally {
+        this.isLoading = false;
+        this.userInput = "";
+      }
+    },
+
+    async sendToAaveAPI(message) {
+      const response = await fetch("https://aave-agent.vercel.app/api/data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error("API request failed");
       }
 
-      this.show = false;
-      this.userInput = "";
+      const data = await response.json();
+      return (
+        data.data.data.agentMessages[0] ||
+        data.message ||
+        "Received response from bot"
+      );
+    },
+
+    async sendToUniswapAPI(message) {
+      console.log("Uniswap API call with message:", message);
+      return "This is a dummy response from Uniswap Agent. Replace with actual API implementation.";
+    },
+
+    async sendToLidoAPI(message) {
+      console.log("Lido API call with message:", message);
+      return "This is a dummy response from Lido Agent. Replace with actual API implementation.";
+    },
+
+    async sendToIntentAPI(message) {
+      console.log("Intent API call with message:", message);
+      return "This is a dummy response from Intent Agent. Replace with actual API implementation.";
     },
   },
 };
 </script>
 
 <style scoped>
+/* RPG-Style Chat Box */
 .input-box {
   position: absolute;
-  background: white;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  z-index: 1000;
+  background: radial-gradient(circle, #f5e1b3 0%, #e3c48e 50%, #c9a66b 100%);
+  padding: 15px;
+  border: 3px solid #5c4033;
+  border-radius: 8px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+  width: 300px;
+  font-family: "Georgia", serif;
+  color: #3e2723;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
 }
 
-input {
-  margin-right: 5px;
-  padding: 5px;
+/* Chat History */
+.chat-history {
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 2px solid #5c4033;
+  border-radius: 5px;
+  background: rgba(255, 255, 240, 0.6);
 }
 
+/* Message Styles */
+.message {
+  font-family: "Georgia", serif;
+  font-size: 14px;
+  color: #3e2723;
+  padding: 8px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-message {
+  background: rgba(250, 250, 210, 0.7);
+  border-left: 4px solid #5c4033;
+}
+
+.bot-message {
+  background: rgba(230, 200, 150, 0.7);
+  border-right: 4px solid #5c4033;
+}
+
+/* Input Area */
+.input-area {
+  display: flex;
+  gap: 6px;
+}
+
+/* Input Field */
+.input-area input {
+  flex-grow: 1;
+  padding: 6px;
+  border: 2px solid #5c4033;
+  border-radius: 5px;
+  background: rgba(255, 255, 240, 0.8);
+  color: #3e2723;
+  font-size: 14px;
+}
+
+/* RPG-Style Button */
 button {
-  padding: 5px 10px;
+  padding: 7px 12px;
+  background: linear-gradient(to bottom, #a67c52, #6e4f31);
+  color: white;
+  font-weight: bold;
+  border: 2px solid #5c4033;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+}
+
+button:hover {
+  background: linear-gradient(to bottom, #b3825a, #7f5a3a);
+}
+
+button:disabled {
+  background: #a9a9a9;
+  border-color: #777;
+  cursor: not-allowed;
 }
 </style>

@@ -2,6 +2,7 @@ import { Components, RpgPlayer, RpgPlayerHooks } from "@rpgjs/server";
 
 export const player: RpgPlayerHooks = {
   onConnected(player: RpgPlayer) {
+    player.name = player.web3.walletAdress;
     player.setComponentsTop(Components.text(player.web3.walletAdress));
   },
 

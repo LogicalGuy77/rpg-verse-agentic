@@ -75,10 +75,10 @@
   <object id="1" name="UNISWAP_AGENT" x="268.083" y="329.424">
    <point/>
   </object>
-  <object id="2" name="LIDO_AGENT" x="1161.9" y="267.605">
+  <object id="2" name="LIDO_AGENT" x="257.9" y="747.605">
    <point/>
   </object>
-  <object id="3" name="AAVE_AGENT" x="263.892" y="748.59">
+  <object id="3" name="AAVE_AGENT" x="1171.89" y="271.923">
    <point/>
   </object>
   <object id="4" name="INTENT_AGENT" x="1160.62" y="780.894">
