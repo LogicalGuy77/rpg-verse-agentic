@@ -157,8 +157,24 @@ export default {
     },
 
     async sendToLidoAPI(message) {
-      console.log("Lido API call with message:", message);
-      return "This is a dummy response from Lido Agent. Replace with actual API implementation.";
+      const response = await fetch("http://localhost:8001/api/data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error("API request failed");
+      }
+
+      const data = await response.json();
+      return (
+        data.data.data.agentMessages[0] ||
+        data.message ||
+        "Received response from bot"
+      );
     },
 
     async sendToEigenAPI(message) {
