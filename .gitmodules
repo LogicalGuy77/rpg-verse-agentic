@@ -1,0 +1,15 @@
+[submodule "agentkit"]
+	path = agentkit
+	url = https://github.com/projectman14/agentkit.git
+[submodule "aave_agent"]
+	path = aave_agent
+	url = https://github.com/projectman14/aave_agent.git
+[submodule "uniswap_agent"]
+	path = uniswap_agent
+	url = https://github.com/projectman14/uniswap_agent.git
+[submodule "general-coinbase-agent"]
+	path = general-coinbase-agent
+	url = https://github.com/projectman14/general-coinbase-agent.git
+[submodule "EigenDA_connecter"]
+	path = EigenDA_connecter
+	url = https://github.com/LogicalGuy77/EigenDA_connecter.git
