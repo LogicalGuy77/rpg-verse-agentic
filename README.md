@@ -16,7 +16,7 @@ Use space near an NPC to get it's description.
 
 Click on an NPC to open chat prompt and start using the AI Agent.
 
-<img src="https://github.com/user-attachments/assets/2165f1b4-f049-4233-b14c-7e8f4b8388f6" width="400">
+<img src="https://github.com/user-attachments/assets/97af6fbf-97a2-448b-a10e-dec6e358102e" width="800">
 
 - AAVE NPC : Works on Eth Sepolia testnet. Can connect with AAVE and execute the functionalities provided by AAVE.
 - Uniswap NPC :
