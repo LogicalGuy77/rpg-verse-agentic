@@ -36,6 +36,26 @@ RPG JS provides with the game server. The AI Agents are hosted as API services a
 ## Eigen Workflow
 <img src="https://github.com/user-attachments/assets/520dc604-9c76-446f-ac5b-9c843f59e7c6" width="1000">
 
+## Installation
+
+After git cloning the project with the submodules, install all node modules using `npm i`.
+
+To start the agents locally, go to `general-coinbase-agent`, `aave_agent`, `uniswap_agent` and `EigenDA_connector` : -
+1) Fill `.env` for each directory
+ ```
+CDP_API_KEY_NAME
+CDP_API_KEY_PRIVATE_KEY
+OPENAI_API_KEY
+NETWORK_ID=sepolia #or base-sepolia for general agent
+USER_PRIVATE_KEY
+OPENAI_API_BASE
+SEPOLIA_RPC_URL
+PORT
+```
+2) Run the command `npm start` or `npm run dev` according to the `package.json` for each directory in a single terminal.
+Now go to the `./src/game/main/gui/tooltip.vue` and change all the API endpoints as necessary.
+
+Now go to root directory and run `npm run dev` to start the project.
 
 ## Team
 
