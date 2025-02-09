@@ -163,15 +163,23 @@ export default {
 
     async sendToEigenAPI(message) {
       try {
-        // Slice message to 10 characters
-        const truncatedMessage = message.slice(0, 10);
+        // First, hash the message using SHA-256
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashedMessage = hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+
+        // Then take first 16 characters of the hash
+        const truncatedHash = hashedMessage.slice(0, 15);
 
         const response = await fetch("http://localhost:3000/api/store", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message: truncatedMessage }),
+          body: JSON.stringify({ message: truncatedHash }),
         });
 
         if (!response.ok) {
@@ -180,8 +188,8 @@ export default {
 
         const data = await response.json();
 
-        // Format the response to include message, headerhash and blobindex
-        return `Message: ${truncatedMessage}\nHeader Hash: ${data.data.headerhash}\nBlob Index: ${data.data.blobindex}`;
+        // Format the response to include original message, hashed message, headerhash and blobindex
+        return `Original Message: ${message}\nHashed (truncated): ${truncatedHash}\nHeader Hash: ${data.data.headerhash}\nBlob Index: ${data.data.blobindex}`;
       } catch (error) {
         console.error("Eigen API Error:", error);
         throw error;
