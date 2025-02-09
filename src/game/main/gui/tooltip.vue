@@ -136,16 +136,13 @@ export default {
     },
 
     async sendToUniswapAPI(message) {
-      const response = await fetch(
-        "https://uniswap-agent-gray.vercel.app/api/data",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message }),
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
 
       if (!response.ok) {
         throw new Error("API request failed");
