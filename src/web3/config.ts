@@ -1,29 +1,23 @@
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 
-import {
-    getDefaultWallets
-} from '@rainbow-me/rainbowkit';
-import { configureChains, createConfig } from 'wagmi';
-import {
-    sepolia,
-} from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
+import { getDefaultWallets } from "@rainbow-me/rainbowkit";
+import { configureChains, createConfig } from "wagmi";
+import { sepolia } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
 
 export const { chains, publicClient } = configureChains(
-    [sepolia],
-    [
-        publicProvider()
-    ]
+  [sepolia],
+  [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-    appName: 'My RainbowKit App',
-    projectId: 'YOUR_PROJECT_ID',
-    chains
+  appName: "suriverse",
+  projectId: "d414c80024b019751c78d017dd5d17e2",
+  chains,
 });
 
 export const wagmiConfig = createConfig({
-    autoConnect: true,
-    connectors,
-    publicClient
-})
+  autoConnect: true,
+  connectors,
+  publicClient,
+});
