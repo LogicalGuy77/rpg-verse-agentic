@@ -1,5 +1,5 @@
 # SuriVerse
-
+### AI-powered multiverse—where MMORPG meets Web3,
 An MMORPG game made using RPG JS framework which showcases global chat and NPCs powered by AI Agent. Every AI Agent is made using Coinbase AgentKit framework which can not only chat but execute custom actions based on prompts. All agents have the capabilities to manage their wallets.
 
 We have made specialized AI Agents to communicate with popular Web3 services like AAVE and Uniswap.
