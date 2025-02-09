@@ -87,8 +87,9 @@ export default {
           case "AAVE_AGENT":
             response = await this.sendToAaveAPI(this.userInput);
             break;
+          // this is Eigen DA agent
           case "INTENT_AGENT":
-            response = await this.sendToIntentAPI(this.userInput);
+            response = await this.sendToEigenAPI(this.userInput);
             break;
         }
 
@@ -135,8 +136,27 @@ export default {
     },
 
     async sendToUniswapAPI(message) {
-      console.log("Uniswap API call with message:", message);
-      return "This is a dummy response from Uniswap Agent. Replace with actual API implementation.";
+      const response = await fetch(
+        "https://uniswap-agent-gray.vercel.app/api/data",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("API request failed");
+      }
+
+      const data = await response.json();
+      return (
+        data.data.data.agentMessages[0] ||
+        data.message ||
+        "Received response from bot"
+      );
     },
 
     async sendToLidoAPI(message) {
@@ -144,9 +164,31 @@ export default {
       return "This is a dummy response from Lido Agent. Replace with actual API implementation.";
     },
 
-    async sendToIntentAPI(message) {
-      console.log("Intent API call with message:", message);
-      return "This is a dummy response from Intent Agent. Replace with actual API implementation.";
+    async sendToEigenAPI(message) {
+      try {
+        // Slice message to 10 characters
+        const truncatedMessage = message.slice(0, 10);
+
+        const response = await fetch("http://localhost:3000/api/store", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: truncatedMessage }),
+        });
+
+        if (!response.ok) {
+          throw new Error("API request failed");
+        }
+
+        const data = await response.json();
+
+        // Format the response to include message, headerhash and blobindex
+        return `Message: ${truncatedMessage}\nHeader Hash: ${data.data.headerhash}\nBlob Index: ${data.data.blobindex}`;
+      } catch (error) {
+        console.error("Eigen API Error:", error);
+        throw error;
+      }
     },
   },
 };

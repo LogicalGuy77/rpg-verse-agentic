@@ -12,7 +12,7 @@ export default class VillagerEvent extends RpgEvent {
     this.setGraphic("female");
   }
   async onAction(player: RpgPlayer) {
-    await player.showText("Hi, I am an Intent Resolver", {
+    await player.showText("Hi, I am EigenDA agent", {
       talkWith: this,
     });
   }
