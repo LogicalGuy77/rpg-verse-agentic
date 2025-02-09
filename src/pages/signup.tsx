@@ -18,8 +18,8 @@ export function SignupPage() {
     }, []);
 
     return (
-        <div 
-            className="min-h-screen bg-cover bg-center relative" 
+        <div
+            className="min-h-screen bg-cover bg-center relative"
             style={{ backgroundImage: `url(${bgg})` }}
         >
             {showAnimation && (
@@ -27,11 +27,10 @@ export function SignupPage() {
                     {[...Array(64)].map((_, index) => (
                         <div
                             key={index}
-                            className={`w-full h-full ${
-                                index % 2 === (Math.floor(index / 8) % 2) 
-                                    ? 'bg-red-600' 
+                            className={`w-full h-full ${index % 2 === (Math.floor(index / 8) % 2)
+                                    ? 'bg-red-600'
                                     : 'bg-black'
-                            }`}
+                                }`}
                         ></div>
                     ))}
                 </div>
