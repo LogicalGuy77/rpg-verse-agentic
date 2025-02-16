@@ -9,6 +9,9 @@ Chat responses from the AI Agents are recorded and first 16 characters are hashe
   <img src="public/logo.gif" width="400">
 </div>
 
+## Demo Video
+[![Watch the video](https://img.youtube.com/vi/ep0vQJd_ziw/0.jpg)](https://youtu.be/ep0vQJd_ziw)
+
 ## Usage
 
 Use arrow keys to move around the map.
