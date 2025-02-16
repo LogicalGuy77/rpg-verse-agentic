@@ -19,10 +19,8 @@ Use space near an NPC to get it's description.
 
 Click on an NPC to open chat prompt and start using the AI Agent.
 
-<img src="https://github.com/user-attachments/assets/97af6fbf-97a2-448b-a10e-dec6e358102e" width="800">
-
 - AAVE NPC : Works on Eth Sepolia testnet. Can connect with AAVE and execute the functionalities provided by AAVE.
-- Uniswap NPC :
+- Uniswap NPC : Swap tokens
 - Simple NPC : Works on Base Sepolia testnet. Can mint ERC20 and NFTs and interact with it.
 - EigenDA NPC : Works on Eigen DA Holesky testnet. Even though EigenDA randomness uploading works in the background, this NPC showcase that capability manually. Send the string you want upload, at max 16 characters of the string will be uploaded. Wait for a few minutes and the response will show the details of the uploaded blob.
 
